@@ -21,7 +21,6 @@ class home_controller extends CI_Controller {
         $this->home();
     }
 
-
     public function video_player($film_id) {
         //loading model
         $this->load->model('films_model');
@@ -50,20 +49,21 @@ class home_controller extends CI_Controller {
         //loading view
         $this->load->view('qr_view', $qr_data);
     }
-    
-    public function about(){
+
+    public function about() {
         $this->load->view('about');
     }
-	
-	public function alter(){
-		$this->load->view('header');
+
+    public function alter() {
+        $this->load->view('header');
         $this->load->view('update_ticket_view');
-		$this->load->view('footer');
+        $this->load->view('footer');
     }
-	
-	public function get_qr(){
-		
-	}
+
+    public function get_qr() {
+        
+    }
+
 }
 
 ?>
