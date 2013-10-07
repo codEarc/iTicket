@@ -1,7 +1,7 @@
 <?php $this->load->view('header'); ?>
 
 	<td id= "navigation">
-		<h3>UP COMING MOVIES</h3>
+		<h3>..UP COMING MOVIES..</h3>
     <ul class= "subjects">
       	<h4>* Titanic..</h4>  
       
@@ -9,14 +9,13 @@
    
     
 </td>
-
+<body>
 <td id= "page">
-	    <div id="theater">
+	    <div id="gallery">
 	       <h2>Our Theaters</h2>
-	       
 		 </div>
 	    
-		 <?php   echo form_open_multipart('theaters_controller/theater_uploader');?>
+		 <?php   echo form_open_multipart('operator_controller/theater_uploader');?>
 		 	 <p>
 		        <label for= 'theater_name'> Theater Name</label>
 		        <input type= 'text' name= 'theater_name' id= 'theater_name' />        
@@ -33,14 +32,14 @@
 		    <div id="upload_form">
 	   			<h5>upload images of theater</h5>
 	 		<?php
-	 			echo form_open_multipart('theaters_controller/theater_uploader');
+	 			echo form_open_multipart('operator_controller/theater_uploader');
 				echo form_upload('userfile');
 				echo form_submit('upload','Upload');
 				echo form_close();
 	 		?>
 	 			
 	 		 </div>
-	    </div>
+	    </td>
 	  </body>
-</html>
+
 <?php $this->load->view('footer'); ?>

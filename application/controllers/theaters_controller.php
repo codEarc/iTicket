@@ -10,17 +10,12 @@ class theaters_controller extends CI_Controller {
 		$this->home();
 	}
 	
-	function theater_uploader() 
+	public function theater_display()
 	{
-		$this->load->model('theater_model');
-		
-		$this->load->view('theaters_view');
-		
-		if($this->input->post('upload')){
-			$this->theater_model->do_upload();
-		}
-		 return;
+			
+		$this->load->view('show_theaters_view');
 	}
+	
 	public function home()
 	{
 		echo "film detail viewer..";

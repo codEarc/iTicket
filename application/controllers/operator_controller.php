@@ -35,6 +35,19 @@ class operator_controller extends CI_Controller {
         }
         return;
     }
+	// to upload images of theaters.
+	function theater_uploader() 
+	{
+		$this->load->model('theater_model');
+	
+		
+		if($this->input->post('upload')){
+			$this->theater_model->do_upload();
+		}
+		$data['images']= $this->theater_model->get_images();
+		$this->load->view('theaters_view');
+		 return;
+	}
 
 }
 
