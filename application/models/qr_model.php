@@ -92,8 +92,9 @@
 			$qtid = "SELECT id FROM show_times WHERE
 					time = ? AND f_h_id = (SELECT fil_id FROM ticket WHERE cl_id = ?)";
 			$tid = 	$this->return_result($this->db->query($qtid,array($time,$ucid))->result_array());
-			/*$test ="INSERT INTO test (data) VALUES (?)";
-			$testrun = $this->db->query($test,$tid);*/
+			$test ="INSERT INTO test (data) VALUES (?)";
+			$testrun = $this->db->query($test,$tid);
+			
 			$uqu = 	"UPDATE ticket
 					SET s_date=?,show_time_id=?
 					WHERE cl_id=?"; 
@@ -109,8 +110,9 @@
 		private function create_link($client_id){
 			$rand = mt_rand();//random generated value
 			$costr = $client_id.$rand;//encoaded string
-			$this->load->library('encrypt');//encrypt libry
-			$keys1 = $this->encrypt->encode($costr,$this->add_key);//md5 or shar1
+			//$this->load->library('encrypt');//encrypt libry
+			//$keys1 = $this->encrypt->encode($costr,$this->add_key);//md5 or shar1
+			$keys1 = sha1($costr);
 			//add encrypt data to db
 			$adding ="INSERT INTO ticket_data (client_id,key_val) VALUES (?,?)";
 			$testrun = $this->db->query($adding,array($client_id,$keys1));
