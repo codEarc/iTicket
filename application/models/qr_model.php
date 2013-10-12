@@ -37,7 +37,7 @@
 		
 		public function create_qr_data(){
 			$cl_id = $this->get_client_id();
-			$newi = $this->create_link($cl_id );
+			$newi = $this->create_link($cl_id,1);
 			return $newi;
 		}
 		
@@ -45,7 +45,10 @@
 			$quer = "SELECT client_id FROM ticket_data WHERE key_val = ?";
 			$this->cli_id = $this->return_result($this->db->query($quer,$qrdata)->result_array());
 			//$tt = $this->return_result($cli_id);
-					
+			if($this->cli_id==''){
+				//$nodata = "no";
+				return ;
+			}					
 			$fquery_name = "SELECT hall_name FROM film_hall 
 						WHERE f_hall_id = 
 						(SELECT fil_id FROM ticket WHERE cl_id = ?)";
@@ -92,32 +95,43 @@
 			$qtid = "SELECT id FROM show_times WHERE
 					time = ? AND f_h_id = (SELECT fil_id FROM ticket WHERE cl_id = ?)";
 			$tid = 	$this->return_result($this->db->query($qtid,array($time,$ucid))->result_array());
-			$test ="INSERT INTO test (data) VALUES (?)";
-			$testrun = $this->db->query($test,$tid);
+			//$test ="INSERT INTO test (data) VALUES (?)";
+			//$testrun = $this->db->query($test,$tid);
 			
 			$uqu = 	"UPDATE ticket
 					SET s_date=?,show_time_id=?
 					WHERE cl_id=?"; 
 			$this->db->query($uqu,array($date,$tid,$ucid));
-			//give new id to client
-			$qnucid = $this->get_client_id();
-			$updateclient = "UPDATE client SET c_id =? WHERE c_id=?";
-			$this->db->query($updateclient,array($qnucid,$ucid));
-			$newlink = $this->create_link($qnucid);
+			
+			$newlink = $this->create_link($ucid,0);
 			return $newlink;
 		}
 		
-		private function create_link($client_id){
+		private function create_link($client_id,$satatus){
 			$rand = mt_rand();//random generated value
+			if($satatus==1){
 			$costr = $client_id.$rand;//encoaded string
+			}
+			else{
+			$costr = $client_id.$rand.$rand;	
+			}
 			//$this->load->library('encrypt');//encrypt libry
 			//$keys1 = $this->encrypt->encode($costr,$this->add_key);//md5 or shar1
 			$keys1 = sha1($costr);
+			if($satatus == 1){
 			//add encrypt data to db
 			$adding ="INSERT INTO ticket_data (client_id,key_val) VALUES (?,?)";
 			$testrun = $this->db->query($adding,array($client_id,$keys1));
+			// send link to client
+			}
+			else{
+			$again = "UPDATE ticket_data SET key_val=? WHERE client_id = ?";
+			$this->db->query($again,array($keys1,$client_id));
+			$test ="INSERT INTO test (data) VALUES (?)";
+			$testrun = $this->db->query($test,$keys1);
+			}
 			$value = $this->qr_display($keys1);// get qr code link
-			return $value;// send link to client
+			return $value;
 		}
 		
 		
