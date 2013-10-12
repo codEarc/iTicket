@@ -7,7 +7,11 @@ for ($i = 0;$i <sizeof($scripts);$i++){
 	//echo "<br>";
 }
 ?>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('stylsheets/juidate.css'); ?>"></link>
+<link rel="stylesheet" type="text/css" href="<?php echo base_url('stylsheets/updatev.css'); ?>"></link>
 <script type="text/javascript" src="<?php echo base_url('jscr/jquery_min.js'); ?>"></script>
+<script type="text/javascript" src="<?php echo base_url('jscr/jui.js'); ?>"></script>
+
 <script type="text/javascript">
 	var image_up = '<?php echo base_url('qr_upload/get_qr'); ?>';
 	var locations = '<?php echo base_url('saveqr/ticket.png'); ?>';
@@ -62,16 +66,25 @@ for ($i = 0;$i <sizeof($scripts);$i++){
 
 </p>
 
-<div id="new" align="center"  style="display: none">
+<div id="new" align="center" class="upview" ">
+	<br>
 	<h3> ADD YOUR NEW DATA</h3>
 	Date <input id="udate" type="text" size = "8" />
 	<br><br>
 	<label id="time"></label>
 	<br>
-	Time <input id="utime" type="text" size = "8" />
+	
+	Time <select id="stime">
+  	<option id="0"></option>
+  	<option id="1"></option>
+  	<option id="2"></option>
+  	<option id="3"></option>
+	</select>
 	
 	<br><br>
 	<button id="dd" onclick="upd()" >UPDATE</button>
+	<br><br>
+	
 </div>
 
 <script type="text/javascript" src="<?php echo base_url('jscr/upload_qr.js'); ?>"></script>
