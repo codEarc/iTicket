@@ -1,3 +1,4 @@
+$('#udate').datepicker({dateFormat:'yy-mm-dd',minDate:'1',maxDate:'+6m'});
 (function () {
 	var input = document.getElementById("images"), 
 		formdata = false;
@@ -45,20 +46,25 @@
 
 function ddd(){
 	var t = $('#images').val();
-	$("#new").show();
+	//$("#new").show();
 	//alert(locations);
 	qrcode.callback = function(qrdata) { 
 		//alert(qrdata);
-		var rdata = qrdata.replace(/ /g,"+"); 
-		var qrcode_data ={qdata : rdata};
+		var qrcode_data ={qdata : qrdata};
 		$.ajax({
 				url: data_up,
 				type: "POST",
 				data: qrcode_data,
 				success: function (res) {
+					if(res.length==4){
+						alert("Your ticket is expired or invalid please check it again");
+					//return;	
+					}else{
+					$("#new").show();
 					var dep = res.split('#');
 					time(dep[1]);
 					document.getElementById("reupload").innerHTML = dep[0]; 
+					}
 				}
 			});		
 	};
@@ -75,6 +81,7 @@ function time(sec){
 	var arr = six.split(',');
 	var times = new Array;
 	for(var i = 0; i<arr.length; i++){
+		$('#'+i).html(secsp(arr[i]));
 		times.push(secsp(arr[i]));
 	}
 	var times_page = times.join("h ");
@@ -90,17 +97,21 @@ function secsp(inp){
 }
 
 function upd(){
+	//alert($('#udate').val().length);
+	
 	var update_data = {
 		u_date : $('#udate').val(),
-       	u_time : $('#utime').val()		
+       	u_time : $('#stime').val()		
 	};
 	 $.ajax({
        		url: update,
        		type: 'POST',
        		data: update_data,
        		success:function(msg){
+       				//alert("Please save the image");
 					window.location = msg;
 					//alert(msg);
 			}
        });
 }
+
